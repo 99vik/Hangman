@@ -1,15 +1,33 @@
 require_relative 'game_messages'
+require_relative 'display'
 
 class Game
   include GameMessages
-  attr_reader :secret_word
-  
+  include Display
+
   def initialize
     welcome_msg
-    @secret_word = select_random_word
+    initialize_variables
     p @secret_word
-    @guessing_word = Array.new(@secret_word.length)
-    p @guessing_word
+    until win? || lose? do
+      display_board
+      display_guessing_word
+      gets
+    end
+  end
+
+  def display_guessing_word
+    p @guessing_word.join
+  end
+
+  def display_board
+    display(@number_of_guesses)
+  end
+  
+  def initialize_variables
+    @secret_word = select_random_word
+    @guessing_word = Array.new(@secret_word.length, " _ ")
+    @number_of_guesses = 0
   end
 
   def select_random_word
@@ -21,5 +39,13 @@ class Game
       end
     end
     random_word.split('')
+  end
+
+  def win?
+
+  end
+
+  def lose?
+
   end
 end
