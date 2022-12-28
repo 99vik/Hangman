@@ -7,10 +7,14 @@ class Game
 
   def initialize
     welcome_msg
-    start_game
+    @play_again = true
+    until @play_again == false
+      start_game
+    end
   end
   
   def start_game
+    random_word_and_start_msg
     initialize_variables
     p @secret_word
     until win? || lose? do
@@ -24,7 +28,30 @@ class Game
     else
       game_lost
     end
+    play_again
+  end
 
+  def play_again
+    play_again_msg
+    play_again_input
+  end
+
+  def play_again_input
+    input = gets.strip.downcase
+    if input == "y"
+       @play_again = true
+    elsif input == "n"
+      @play_again = false
+    else
+      wrong_play_again_input_msg
+      play_again
+    end
+  end
+
+  def game_lost
+    display_board
+    game_lost_msg
+    puts @secret_word.join('').capitalize
   end
 
   def game_won

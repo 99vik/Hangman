@@ -1,7 +1,10 @@
 module GameMessages
     def welcome_msg
       puts "Welcome to the Hangman game!".bold
-      puts "Computer will randomly select a word for you to guess.".bold
+    end
+    
+    def random_word_and_start_msg
+      puts "\nComputer will randomly select a word for you to guess.".bold
       puts "Press ENTER to start.".bold
       gets
     end
@@ -17,6 +20,23 @@ module GameMessages
     def game_won_msg
       puts "\nCongratulations, you won the game!".green
       print "The word was: "
+    end
+
+    def game_lost_msg
+      puts "\nYou lost!".red
+      print "The word was: "
+    end
+
+    def play_again_msg
+      puts "\nDo you want to play again"
+      puts "Press Y to play again."
+      puts "Press N to exit."
+    end
+
+    def wrong_play_again_input_msg
+      puts "\nWrong input!".red
+      puts "Press Y to play again."
+      puts "Press N to exit."
     end
 
     def enter_letter_msg
