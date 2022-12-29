@@ -50,7 +50,11 @@ class Game
   def choose_save_to_load
     print "\nChoose name of a file to load:"
     name = gets.strip
-    choosen_save = JSON.parse File.open("saved_games/#{name}.json", 'r')
+    choosen_save = JSON.load File.open("saved_games/#{name}.json", 'r')
+  rescue
+    puts "#{name} save doesn't exist."
+    choose_save_to_load
+  else
     load_values_from_save(choosen_save)
   end
 
