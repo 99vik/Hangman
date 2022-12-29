@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
 require_relative 'game_messages'
 require_relative 'display'
+require 'erb'
+require 'json'
 
 class Game
   include GameMessages
@@ -8,15 +12,13 @@ class Game
   def initialize
     welcome_msg
     @play_again = true
-    until @play_again == false
-      start_game
-    end
+    start_game until @play_again == false
   end
-  
+
   def start_game
     load_or_new_game
     p @secret_word
-    until win? || lose? do
+    until win? || lose?
       display_board
       display_entered_letters
       display_guessing_word
@@ -29,19 +31,40 @@ class Game
     end
     play_again
   end
-  
+
   def new_game
     initialize_variables
   end
 
   def load_game
-    puts "load game"
+    show_shaved_games
+    choose_save_to_load
+  end
+
+  def show_shaved_games
+    print "\nSaved games: "
+    saved_file_names = Dir.entries('saved_games').select { |name| name.include?('.json') }
+    puts saved_file_names.map { |name| name.delete_suffix('.json') }.join(' , ')
+  end
+
+  def choose_save_to_load
+    print "\nChoose name of a file to load:"
+    name = gets.strip
+    choosen_save = JSON.parse File.open("saved_games/#{name}.json", 'r')
+    load_values_from_save(choosen_save)
+  end
+
+  def load_values_from_save(save_values)
+    @guessing_word = save_values['guessing_word']
+    @number_of_guesses = save_values['number_of_guesses']
+    @secret_word = save_values['secret_word']
+    @entered_letters = save_values['entered_letters']
   end
 
   def load_or_new_game
     game_instructions_msg
     input = gets.strip.downcase
-    if input == "load"
+    if input == 'load'
       load_game
     else
       new_game
@@ -55,9 +78,10 @@ class Game
 
   def play_again_input
     input = gets.strip.downcase
-    if input == "y"
-       @play_again = true
-    elsif input == "n"
+    case input
+    when 'y'
+      @play_again = true
+    when 'n'
       @play_again = false
     else
       wrong_play_again_input_msg
@@ -82,7 +106,7 @@ class Game
       push_letter_on_guess_array(letter)
     else
       letter_not_included_msg(letter)
-       @number_of_guesses += 1
+      @number_of_guesses += 1
     end
   end
 
@@ -97,7 +121,6 @@ class Game
   def save_game
     choose_save_name_msg
     choose_save_name
-    save_game_msg
   end
 
   def choose_save_name
@@ -106,17 +129,17 @@ class Game
   end
 
   def save_file(name)
-    begin
-      file = File.open("./saved_games/#{name}.txt", 'w')
-    rescue Exception => e
-      puts "ERROR: #{e}"
-      puts "Please choose a different file name."
-      save_game
-    else
-      text = "hello world"
-      file.write(text)
-      file.close
-    end
+    file = File.open("./saved_games/#{name}.json", 'w')
+  rescue Exception => e
+    puts "ERROR: #{e}"
+    puts 'Please choose a different file name.'
+    save_game
+  else
+    erb_template = ERB.new File.read('save_template.erb')
+    form_letter = erb_template.result(binding)
+    file.write(form_letter)
+    file.close
+    save_game_msg
   end
 
   def input_a_letter
@@ -140,7 +163,7 @@ class Game
 
   def display_entered_letters
     print "\nPreviously entered letters:   "
-    puts @entered_letters.join(' , ') 
+    puts @entered_letters.join(' , ')
   end
 
   def display_guessing_word
@@ -151,20 +174,20 @@ class Game
   def display_board
     display(@number_of_guesses)
   end
-  
+
   def initialize_variables
     @secret_word = select_random_word
-    @guessing_word = Array.new(@secret_word.length, " _ ")
+    @guessing_word = Array.new(@secret_word.length, ' _ ')
     @number_of_guesses = 0
     @entered_letters = []
   end
 
   def select_random_word
     random_word = ''
-    until random_word.length.between?(5, 12) do
+    until random_word.length.between?(5, 12)
       File.open('google-10000-english-no-swears.txt') do |file|
-        file_lines = file.readlines()
-        random_word = file_lines[Random.rand(0...file_lines.size())].strip
+        file_lines = file.readlines
+        random_word = file_lines[Random.rand(0...file_lines.size)].strip
       end
     end
     random_word.split('')

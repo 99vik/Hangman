@@ -1,0 +1,6 @@
+{
+    "secret_word": ["p", "r", "o", "t", "o", "c", "o", "l", "s"],
+    "guessing_word": [" _ ", " _ ", " _ ", " _ ", " _ ", " _ ", " _ ", " _ ", " _ "],
+    "number_of_guesses": 0,
+    "entered_letters": []
+}

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Display
   def display(number_of_guesses)
     case number_of_guesses
@@ -19,75 +21,72 @@ module Display
   end
 
   def display0
-    puts "     ________"
-    puts "     |      |"
-    puts "            |"
-    puts "            |"
-    puts "            |"
-    puts "            |"
+    puts '     ________'
+    puts '     |      |'
+    puts '            |'
+    puts '            |'
+    puts '            |'
+    puts '            |'
     puts "           _|_\n"
   end
 
   def display1
-    puts "     ________"
-    puts "     |      |"
-    puts "     O      |"
-    puts "            |"
-    puts "            |"
-    puts "            |"
+    puts '     ________'
+    puts '     |      |'
+    puts '     O      |'
+    puts '            |'
+    puts '            |'
+    puts '            |'
     puts "           _|_\n"
   end
 
-  
   def display2
-    puts "     ________"
-    puts "     |      |"
-    puts "     O      |"
-    puts "     |      |"
-    puts "     |      |"
-    puts "            |"
+    puts '     ________'
+    puts '     |      |'
+    puts '     O      |'
+    puts '     |      |'
+    puts '     |      |'
+    puts '            |'
     puts "           _|_\n"
   end
 
   def display3
-    puts "     ________"
-    puts "     |      |"
-    puts "     O      |"
-    puts "     |      |"
-    puts "     |      |"
-    puts "    /       |"
+    puts '     ________'
+    puts '     |      |'
+    puts '     O      |'
+    puts '     |      |'
+    puts '     |      |'
+    puts '    /       |'
     puts "           _|_\n"
   end
 
   def display4
-    puts "     ________"
-    puts "     |      |"
-    puts "     O      |"
-    puts "     |      |"
-    puts "     |      |"
-    puts "    / \\     |"
+    puts '     ________'
+    puts '     |      |'
+    puts '     O      |'
+    puts '     |      |'
+    puts '     |      |'
+    puts '    / \\     |'
     puts "           _|_\n"
   end
 
   def display5
-    puts "     ________"
-    puts "     |      |"
-    puts "     O      |"
-    puts "    \\|      |"
-    puts "     |      |"
-    puts "    / \\     |"
+    puts '     ________'
+    puts '     |      |'
+    puts '     O      |'
+    puts '    \\|      |'
+    puts '     |      |'
+    puts '    / \\     |'
     puts "           _|_\n"
   end
 
   def display6
-    puts "     ________"
-    puts "     |      |"
-    puts "     O      |"
-    puts "    \\|/     |"
-    puts "     |      |"
-    puts "    / \\     |"
+    puts '     ________'
+    puts '     |      |'
+    puts '     O      |'
+    puts '    \\|/     |'
+    puts '     |      |'
+    puts '    / \\     |'
     puts "           _|_\n"
   end
-
-
 end
