@@ -2,6 +2,20 @@ module GameMessages
     def welcome_msg
       puts "Welcome to the Hangman game!".bold
     end
+
+    def game_instructions_msg
+      puts "\nYou can save the game anytime during the round by writing 'save' instead of a letter."
+      puts "If you want to load previous game, type 'load', or press ENTER for new game."
+    end
+
+    def save_game_msg
+      puts "\nGame saved!"
+      puts "Exiting game..."
+    end
+
+    def choose_save_name_msg
+      print "\nChoose a name for your save:"
+    end
     
     def random_word_and_start_msg
       puts "\nComputer will randomly select a word for you to guess.".bold

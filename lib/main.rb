@@ -14,8 +14,7 @@ class Game
   end
   
   def start_game
-    random_word_and_start_msg
-    initialize_variables
+    load_or_new_game
     p @secret_word
     until win? || lose? do
       display_board
@@ -29,6 +28,24 @@ class Game
       game_lost
     end
     play_again
+  end
+  
+  def new_game
+    initialize_variables
+  end
+
+  def load_game
+    puts "load game"
+  end
+
+  def load_or_new_game
+    game_instructions_msg
+    input = gets.strip.downcase
+    if input == "load"
+      load_game
+    else
+      new_game
+    end
   end
 
   def play_again
@@ -77,9 +94,38 @@ class Game
     @secret_word.each_index.select { |index| @secret_word[index] == letter }
   end
 
+  def save_game
+    choose_save_name_msg
+    choose_save_name
+    save_game_msg
+  end
+
+  def choose_save_name
+    save_name = gets.strip
+    save_file(save_name)
+  end
+
+  def save_file(name)
+    begin
+      file = File.open("./saved_games/#{name}.txt", 'w')
+    rescue Exception => e
+      puts "ERROR: #{e}"
+      puts "Please choose a different file name."
+      save_game
+    else
+      text = "hello world"
+      file.write(text)
+      file.close
+    end
+  end
+
   def input_a_letter
     enter_letter_msg
     letter = gets.strip.downcase
+    if letter == 'save'
+      save_game
+      exit
+    end
     if letter.length != 1 || !('a'..'z').to_a.include?(letter)
       incorrect_letter_input_msg
       input_a_letter
